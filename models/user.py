@@ -8,10 +8,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
     email = db.Column(db.String(255), unique=True)
-    password = db.Column(db.String(255), unique=True)
+    password = db.Column(db.String(255))
 
 
-    # TODO: resolver conflitos de tamanho no banco
     def hash_password(self, password):
         self.password = generate_password_hash(password)
 

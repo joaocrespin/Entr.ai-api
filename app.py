@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 
 from models.user import User, db
+from models.student import Student
 
 app = Flask(__name__)
 
@@ -33,22 +34,43 @@ def login():
 
 @app.route("/cadastro", methods=["POST"])
 def signup():
-    name = request.form.get("name")
+    username = request.form.get("name")
     email = request.form.get("email")
     password = request.form.get("password")
 
-    if not name or not password:
+    if not username or not password:
         return "Nome de usuário e senha são obrigatórios!"
     
     if not email:
         return "Email é obrigatório!"
     
-    if User.query.filter_by(username=name).first():
+    if User.query.filter_by(username=username).first():
         return "Nome de usuário já existe!"
     
-    user = User(username=name, email=email)
+    user = User(username=username, email=email)
     user.hash_password(password)
     db.session.add(user)
     db.session.commit()
 
-    return 'ok'
+    return 'Registrado com sucesso'
+
+@app.route("/aluno/cadastro", methods=["POST"])
+def student_signup():
+    id = request.form.get("id")
+    name = request.form.get("name")
+    school_class = request.form.get("class")
+
+    if not id:
+        return "Insira o id do aluno!"
+    
+    if not name or not school_class:
+        return "Nome e classe são obrigatórios!"
+    
+    student = Student(student_id=id, student_name=name, school_class=school_class)
+    db.session.add(student)
+    db.session.commit()
+
+    return "Aluno cadastrado com sucesso!"
+
+
+
