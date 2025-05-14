@@ -17,6 +17,9 @@ with app.app_context():
 def index():
     return "Olá Flask"
 
+# Terminar CRUDS
+
+# Rotas para autenticação
 @app.route("/login", methods=["POST"])
 def login():
     username = request.form.get("username")
@@ -54,6 +57,19 @@ def signup():
 
     return 'Registrado com sucesso'
 
+# Rotas parar membros autorizados
+# Rota básica para testes
+@app.route("/teste/cad", methods=["POST"])
+def auth_member_signup():
+    auth_name = request.form.get("name")
+    cpf = request.form.get("cpf")
+    photo = "simulação de foto"
+
+    # Verificar dados enviados
+
+    return "Cadastrado com sucesso!"
+
+# Rotas de aluno
 @app.route("/aluno/cadastro", methods=["POST"])
 def student_signup():
     id = request.form.get("id")
@@ -71,6 +87,3 @@ def student_signup():
     db.session.commit()
 
     return "Aluno cadastrado com sucesso!"
-
-
-
