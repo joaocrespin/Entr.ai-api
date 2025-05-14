@@ -1,5 +1,3 @@
-from flask_sqlalchemy import SQLAlchemy
-
 from models.user import db
 
 class Student(db.Model):
