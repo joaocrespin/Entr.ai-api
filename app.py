@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, session
 
 from models.user import User, db
 from models.student import Student
@@ -7,6 +7,8 @@ from models.authorized_member import Authorized
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123@localhost:5432/meubanco'
+
+app.secret_key = "segredo"
 
 db.init_app(app)
 
@@ -30,6 +32,7 @@ def login():
     
     user = User.query.filter_by(username=username).first()
     if user and user.check_password(password):
+        session["user_id"] = user.id
         return 'Logado com sucesso'
     else:
         return 'Credenciais incorretas'
@@ -55,7 +58,12 @@ def signup():
     db.session.add(user)
     db.session.commit()
 
-    return 'Registrado com sucesso'
+    return "Registrado com sucesso"
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return "Sessão Limpa."
 
 # Rotas parar membros autorizados
 @app.route("/membros", methods=["GET"])
