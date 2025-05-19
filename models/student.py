@@ -1,4 +1,4 @@
-from models.user import db
+from db import db
 
 class Student(db.Model):
     __tablename__ = 'students'

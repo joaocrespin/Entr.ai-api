@@ -1,4 +1,4 @@
-from models.user import db
+from db import db
 
 class Authorized(db.Model):
     __tablename__ = 'authorized'

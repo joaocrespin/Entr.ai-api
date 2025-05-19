@@ -1,5 +1,5 @@
 from flask import Flask
-from models.user import db
+from db import db
 
 from routes.main import main
 from routes.auth import auth
