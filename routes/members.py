@@ -8,6 +8,10 @@ members = Blueprint("members", __name__)
 @members.route("/membros", methods=["GET"])
 def get_members():
     authorized_members = Authorized.query.all()
+
+    if not authorized_members:
+        return "Nenhum membro autorizado encontrado!", 404
+
     members_list = []
     for member in authorized_members:
         members_list.append({
@@ -30,7 +34,7 @@ def auth_member_signup():
     db.session.add(member)
     db.session.commit()
 
-    return "Cadastrado com sucesso!"
+    return "Cadastrado com sucesso!", 201
 
 @members.route("/membros/<int:id>", methods=["GET"])
 def get_member(id):
@@ -44,14 +48,14 @@ def get_member(id):
             "photo": member.photo
         }]
     
-    return "Membro não encontrado!"
+    return "Membro não encontrado!", 404
 
 @members.route("/membros/update/<int:id>", methods=["POST"])
 def update_member(id):
     member = Authorized.query.get(id)
 
     if not member:
-        return "Não encontrado!"
+        return "Não encontrado!", 404
     
     new_name = request.form.get("name")
     new_cpf = request.form.get("cpf")
@@ -83,9 +87,9 @@ def delete_member(id):
     member = Authorized.query.get(id)
 
     if not member:
-        return "Membro não encontrado"
+        return "Membro não encontrado", 404
     
     db.session.delete(member)
     db.session.commit()
 
-    return "Apagado com sucesso!"
+    return "Apagado com sucesso!", 204

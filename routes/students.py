@@ -23,4 +23,4 @@ def student_signup():
     db.session.add(student)
     db.session.commit()
 
-    return "Aluno cadastrado com sucesso!"
+    return "Aluno cadastrado com sucesso!", 201

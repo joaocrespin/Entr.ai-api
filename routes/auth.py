@@ -15,9 +15,9 @@ def login():
     user = User.query.filter_by(username=username).first()
     if user and user.check_password(password):
         session["user_id"] = user.id
-        return 'Logado com sucesso'
+        return "Logado com sucesso", 200
     else:
-        return 'Credenciais incorretas'
+        return "Credenciais incorretas", 401
 
 
 @auth.route("/cadastro", methods=["POST"])
@@ -40,9 +40,9 @@ def signup():
     db.session.add(user)
     db.session.commit()
 
-    return "Registrado com sucesso"
+    return "Registrado com sucesso", 201
 
 @auth.route("/logout")
 def logout():
     session.clear()
-    return "Sessão Limpa."
+    return "Sessão Limpa.", 204
