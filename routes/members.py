@@ -29,7 +29,10 @@ def auth_member_signup():
     cpf = request.form.get("cpf")
     photo = request.form.get("photo")
 
-    # Verificar dados enviados
+    if len(cpf) != 11:
+        print(len(cpf))
+        return "CPF inválido!"
+
     member = Authorized(authorized_name=auth_name, cpf=cpf, photo=photo)
     db.session.add(member)
     db.session.commit()
@@ -63,6 +66,10 @@ def update_member(id):
 
     if not new_name or not new_cpf or not new_photo:
         return "Preencha todos os campos!"
+    
+    if len(new_cpf) != 11:
+        print(len(new_cpf))
+        return "CPF inválido!"
     
     # Verifica se o novo CPF pertence a alguém já cadastrado
     if Authorized.query.filter(Authorized.cpf == new_cpf, member.authorized_id != id).first():
