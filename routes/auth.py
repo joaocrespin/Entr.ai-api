@@ -10,7 +10,7 @@ def login():
     password = request.form.get("password")
 
     if not username or not password:
-        return "Nome de usuário e senha são obrigatórios!"
+        return "Nome de usuário e senha são obrigatórios!", 400
     
     user = User.query.filter_by(username=username).first()
     if user and user.check_password(password):
@@ -27,13 +27,13 @@ def signup():
     password = request.form.get("password")
 
     if not username or not password:
-        return "Nome de usuário e senha são obrigatórios!"
+        return "Nome de usuário e senha são obrigatórios!", 400
     
     if not email:
-        return "Email é obrigatório!"
+        return "Email é obrigatório!", 400
     
     if User.query.filter_by(username=username).first():
-        return "Nome de usuário já existe!"
+        return "Nome de usuário já existe!", 409
     
     user = User(username=username, email=email)
     user.hash_password(password)
