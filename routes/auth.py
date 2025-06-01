@@ -1,5 +1,6 @@
 from flask import Blueprint, request, session
 from models.user import db, User
+from helpers import login_required
 
 auth = Blueprint("auth", __name__)
 
@@ -43,6 +44,7 @@ def signup():
     return "Registrado com sucesso", 201
 
 @auth.route("/logout")
+@login_required
 def logout():
     session.clear()
     return "Sessão Limpa.", 204
