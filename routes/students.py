@@ -1,11 +1,13 @@
 from flask import Blueprint, request
 from models.user import db
 from models.student import Student
+from helpers import login_required
 
 students = Blueprint("student", __name__)
 
 # Rotas de aluno
 @students.route("/aluno/cadastro", methods=["POST"])
+@login_required
 def student_signup():
     id = request.form.get("id")
     name = request.form.get("name")
