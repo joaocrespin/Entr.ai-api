@@ -20,7 +20,8 @@ def get_members():
             "id": member.authorized_id,
             "name": member.authorized_name,
             "cpf": member.cpf,
-            "photo": member.photo
+            "photo": member.photo,
+            "position": member.position
         })            
     
     return members_list
@@ -30,6 +31,7 @@ def get_members():
 def auth_member_signup():
     auth_name = request.form.get("name")
     cpf = request.form.get("cpf")
+    position = request.form.get("position")
     photo = request.form.get("photo")
 
     if len(cpf) != 11:
@@ -39,7 +41,7 @@ def auth_member_signup():
     if Authorized.query.filter(Authorized.cpf == cpf).first():
         return "CPF já cadastrado em outro membro autorizado!", 409
 
-    member = Authorized(authorized_name=auth_name, cpf=cpf, photo=photo)
+    member = Authorized(authorized_name=auth_name, cpf=cpf, position=position, photo=photo)
     db.session.add(member)
     db.session.commit()
 

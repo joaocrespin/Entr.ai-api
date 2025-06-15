@@ -26,6 +26,7 @@ def signup():
     username = request.form.get("username")
     email = request.form.get("email")
     password = request.form.get("password")
+    access_level = request.form.get("access")
 
     if not username or not password:
         return "Nome de usuário e senha são obrigatórios!", 400
@@ -33,10 +34,21 @@ def signup():
     if not email:
         return "Email é obrigatório!", 400
     
+    if not access_level:
+        return "Selecione um nível de acesso!", 400
+    
     if User.query.filter_by(username=username).first():
         return "Nome de usuário já existe!", 409
     
-    user = User(username=username, email=email)
+    match access_level:
+        case 'Administrador':
+            access_level='a'
+        case 'Porteiro':
+            access_level='p'
+        case _:
+            return "Inválido!", 400
+    
+    user = User(username=username, email=email, access_level=access_level)
     user.hash_password(password)
     db.session.add(user)
     db.session.commit()
