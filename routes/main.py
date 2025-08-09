@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, render_template, request
 from helpers import login_required
 from models.user import User
 
@@ -12,10 +12,20 @@ def index():
 @main.route("/usuarios")
 @login_required
 def get_users():
-    users = User.query.all()
+    name_filter = request.args.get("name")
+    access_level_filter = request.args.get("access_level")
+
+    filters = []
+    if name_filter:
+        filters.append(User.username.ilike(f"%{name_filter}%"))
+    if access_level_filter:
+        filters.append(User.access_level.ilike(f"%{access_level_filter}%"))
+
+    # O * envia os filtros da lista filters como argumentos separados, para a pesquisa funcionar de forma dinamica
+    users = User.query.filter(*filters).all()
 
     if not users:
-        return "Nenhum membro autorizado encontrado!", 404
+        return "Nenhum usuário encontrado!", 404
 
     user_list = []
     for user in users:

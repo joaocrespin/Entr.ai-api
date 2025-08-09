@@ -34,6 +34,9 @@ def auth_member_signup():
     position = request.form.get("position")
     photo = request.form.get("photo")
 
+    if not auth_name or not cpf:
+        return "Preencha todos os campos!", 400
+
     if len(cpf) != 11:
         print(len(cpf))
         return "CPF inválido!", 400
@@ -45,7 +48,7 @@ def auth_member_signup():
     db.session.add(member)
     db.session.commit()
 
-    return "Cadastrado com sucesso!", 201
+    return "Autorizado cadastrado com sucesso!", 201
 
 @members.route("/membros/<int:id>", methods=["GET"])
 @login_required
@@ -91,12 +94,7 @@ def update_member(id):
 
     db.session.commit()
     
-    return [{
-            "id": member.authorized_id,
-            "name": member.authorized_name,
-            "cpf": member.cpf,
-            "photo": member.photo
-        }]
+    return "Alterações salvas com sucesso!"
 
 @members.route("/membros/delete/<int:id>", methods=["POST"])
 @login_required

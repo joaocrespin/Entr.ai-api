@@ -16,11 +16,11 @@ def login():
     user = User.query.filter_by(username=username).first()
     if user and user.check_password(password):
         session["user_id"] = user.id
+        session["access_level"] = user.access_level
         return "Logado com sucesso", 200
     else:
         return "Credenciais incorretas", 401
-
-
+    
 @auth.route("/cadastro", methods=["POST"])
 def signup():
     username = request.form.get("username")
@@ -60,3 +60,9 @@ def signup():
 def logout():
     session.clear()
     return "Sessão Limpa.", 204
+
+@auth.route("/nivel-acesso")
+@login_required
+def get_access_level():
+    access_level = session.get("access_level")
+    return access_level
