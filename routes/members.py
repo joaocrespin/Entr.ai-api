@@ -34,8 +34,12 @@ def auth_member_signup():
     position = request.form.get("position")
     photo = request.form.get("photo")
 
-    if not auth_name or not cpf:
+    if not auth_name or not cpf or not position:
         return jsonify(message="Preencha todos os campos!"), 400
+    
+    auth_name = auth_name.strip()
+    
+    position = position.strip()
 
     if len(cpf) != 11:
         print(len(cpf))
@@ -81,6 +85,10 @@ def update_member(id):
 
     if not new_name or not new_cpf or not new_position:
         return jsonify(message="Preencha todos os campos!"), 400
+    
+    new_name = new_name.strip()
+
+    new_position = new_position.strip()
     
     if len(new_cpf) != 11:
         print(len(new_cpf))

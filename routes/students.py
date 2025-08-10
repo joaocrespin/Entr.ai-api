@@ -22,6 +22,8 @@ def student_signup():
     if not name or not school_class:
         return jsonify(message="Nome e classe são obrigatórios!"), 400
     
+    name = name.strip()
+    
     student = Student(student_id=id, student_name=name, school_class=school_class)
     db.session.add(student)
     db.session.commit()

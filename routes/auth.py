@@ -14,6 +14,8 @@ def login():
     if not username or not password:
         return jsonify(message="Nome de usuário e senha são obrigatórios!"), 400
     
+    username = username.strip()
+    
     user = User.query.filter_by(username=username).first()
     if user and user.check_password(password):
         session["user_id"] = user.id
@@ -32,8 +34,12 @@ def signup():
     if not username or not password:
         return jsonify(message="Nome de usuário e senha são obrigatórios!"), 400
     
+    username = username.strip()
+
     if not email:
         return jsonify(message="Email é obrigatório!"), 400
+    
+    email = email.strip()
     
     if not access_level:
         return jsonify(message="Selecione um nível de acesso!"), 400
@@ -47,7 +53,7 @@ def signup():
         case 'Porteiro':
             access_level='p'
         case _:
-            return jsonify(message="Inválido!"), 400
+            return jsonify(message="Nível de acesso inválido!"), 400
     
     user = User(username=username, email=email, access_level=access_level)
     user.hash_password(password)
