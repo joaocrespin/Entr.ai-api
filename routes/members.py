@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from models.user import db
+from database import db
 from models.authorized_member import Authorized
 from helpers import login_required
 

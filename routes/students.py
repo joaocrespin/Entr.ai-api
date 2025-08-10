@@ -1,5 +1,5 @@
 from flask import Blueprint, request,jsonify
-from models.user import db
+from database import db
 from models.student import Student
 from helpers import login_required
 
