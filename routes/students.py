@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request,jsonify
 from models.user import db
 from models.student import Student
 from helpers import login_required
@@ -14,16 +14,16 @@ def student_signup():
     school_class = request.form.get("class")
 
     if not id:
-        return "Insira o id do aluno!", 400
+        return jsonify(message="Insira o id do aluno!"), 400
     
     if not id.isdigit():
-        return "O id do aluno precisa ser um número!", 400
+        return jsonify(message="O id do aluno precisa ser um número!"), 400
     
     if not name or not school_class:
-        return "Nome e classe são obrigatórios!", 400
+        return jsonify(message="Nome e classe são obrigatórios!"), 400
     
     student = Student(student_id=id, student_name=name, school_class=school_class)
     db.session.add(student)
     db.session.commit()
 
-    return "Aluno cadastrado com sucesso!", 201
+    return jsonify(message="Aluno cadastrado com sucesso!"), 201

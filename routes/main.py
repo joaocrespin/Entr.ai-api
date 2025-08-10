@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request,jsonify
 from helpers import login_required
 from models.user import User
 
@@ -7,7 +7,7 @@ main = Blueprint("main", __name__)
 @main.route("/")
 @login_required
 def index():
-    return "Olá Flask"
+    return jsonify("Seja bem-vindo!")
 
 @main.route("/usuarios")
 @login_required
@@ -25,7 +25,7 @@ def get_users():
     users = User.query.filter(*filters).all()
 
     if not users:
-        return "Nenhum usuário encontrado!", 404
+        return jsonify(message="Nenhum usuário encontrado!"), 404
 
     user_list = []
     for user in users:

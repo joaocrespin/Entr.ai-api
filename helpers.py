@@ -1,8 +1,8 @@
 from functools import wraps
 from flask import session, url_for, redirect
-from pyttslib import TextToSpeech
+#from pyttslib import TextToSpeech
 
-tts = TextToSpeech(engine="google", engine_config={"lang": "pt-br"})
+#tts = TextToSpeech(engine="google", engine_config={"lang": "pt-br"})
 
 def login_required(func):
     @wraps(func)
@@ -13,5 +13,5 @@ def login_required(func):
         return func(*args, **kwargs)
     return wrapper
 
-def announce_authorized(name):
-    tts.speak(f"Seja bem vindo, {name}!")
+#def announce_authorized(name):
+#    tts.speak(f"Seja bem vindo, {name}!")
