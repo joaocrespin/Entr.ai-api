@@ -70,7 +70,7 @@ def get_member(id):
     
     return jsonify(message="Membro não encontrado!"), 404
 
-@members.route("/membros/update/<int:id>", methods=["POST"])
+@members.route("/membros/<int:id>", methods=["PUT"])
 @login_required
 def update_member(id):
     member = Authorized.query.get(id)
@@ -107,7 +107,7 @@ def update_member(id):
     
     return jsonify(message="Alterações salvas com sucesso!")
 
-@members.route("/membros/delete/<int:id>", methods=["POST"])
+@members.route("/membros/<int:id>", methods=["DELETE"])
 @login_required
 def delete_member(id):
     member = Authorized.query.get(id)
